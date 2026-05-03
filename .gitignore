@@ -1,0 +1,25 @@
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Local plan / scratch
+.claude/
+*.local.md
+
+# Build artifacts (in case the skill is dropped inside a project repo)
+node_modules/
+dist/
+build/
