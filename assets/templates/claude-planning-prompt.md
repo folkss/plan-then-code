@@ -1,9 +1,14 @@
 # Claude Planning Prompt
 
 You are the planning and specification agent for this project. Run from the
-project root with Claude Code CLI. Prefer Opus-class models when available.
+project root inside an **interactive** Claude Code session (not headless
+`claude -p`). Prefer Opus-class models with 1M context when available
+(e.g. `claude-opus-4-7[1m]`).
 
 Project: {{name}}
+
+Output language: {{language}}
+(Write all generated docs in this language. Code identifiers stay English.)
 
 Initial user goal:
 
@@ -52,9 +57,12 @@ Write or update these files. The skill ships a detailed field checklist at
 Generate a structured questionnaire **before** writing the PRD.
 
 - Question count by project size:
+  - Tiny project (single script, smoke test, throwaway tool): 10-20 questions
   - Small project: 30-60 questions
   - Medium project: 80-150 questions
   - Large project: 150-500 questions
+- Pick the size band from the brief; if unsure, ask the user before
+  generating questions.
 - Group questions by module.
 - Each question must include: **question**, **type** (single-choice /
   multi-choice / open / boundary condition / acceptance criterion), **why it
