@@ -1,7 +1,49 @@
 # Codex Implementation Handoff
 
-After Claude finishes Stage 1 planning, Codex reads from these files (in
-order) before touching code:
+## Stage 1 Completeness Gate (run BEFORE anything else)
+
+This is the first thing Codex does in this project. **If any check
+below fails, refuse to start implementation** and return the message
+in the "Refuse And Hand Back" section. Do not "helpfully" fill in the
+missing pieces — Stage 1 belongs to Claude, not Codex (see SKILL.md
+Hard Rule "Stage 1 Belongs To Claude").
+
+Checks:
+
+1. `docs/REQUIREMENTS_ANSWERS.md` exists.
+2. `docs/REQUIREMENTS_ANSWERS.md` contains **at least one** answer that
+   is **not** marked `(default assumption)`. (All-defaults means a real
+   user never answered the questionnaire.)
+3. `docs/PRD.md` exists and contains more than the bootstrap scaffold
+   (look for concrete acceptance criteria, not just TBD lines).
+4. `docs/ROADMAP.md` exists and lists at least one concrete vertical
+   slice with verification commands.
+5. `.trellis/tasks/001-implementation-kickoff.md` exists.
+
+### Refuse And Hand Back
+
+If any check fails, respond with (translate to the user's language):
+
+> Stage 1 is not complete. Specifically, the following checks failed:
+>
+> - <list which of the 5 checks failed and why>
+>
+> Stage 1 is interactive Claude Code's job, not mine. To finish it:
+>
+>     cd <project-path>
+>     claude
+>
+> Then in Claude Code say: *"Read `docs/claude/00-prd-spec-prompt.md`
+> and run Stage 1."* Come back to Codex when Stage 1 is genuinely done
+> and I'll start the first vertical slice.
+
+Do **not** attempt to author or refine the missing Stage 1 documents
+yourself. That is the failure mode this gate exists to prevent.
+
+## Read First (only after the gate passes)
+
+After Claude finishes Stage 1 planning, Codex reads from these files
+(in order) before touching code:
 
 1. `PROJECT_BRIEF.md`, `AGENTS.md`
 2. `.trellis/workflow.md`, relevant `.trellis/spec/*`

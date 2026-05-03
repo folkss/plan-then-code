@@ -7,6 +7,42 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 A Chinese mirror of this file is at [CHANGELOG.zh-CN.md](./CHANGELOG.zh-CN.md).
 
+## [0.3.0] - 2026-05-04
+
+### Added
+
+- **Hard Rule: Stage 1 Belongs To Claude (Codex Must Refuse).** New
+  section in `SKILL.md` (and the Chinese mirror) listing the seven
+  Stage 1 documents Codex must never author or refine, plus a verbatim
+  refuse template Codex returns when the user asks it to "test the
+  workflow end-to-end", "fill the questionnaire with defaults",
+  "Claude isn't available so just do it", or any equivalent.
+- **Stage 1 Completeness Gate** in
+  `assets/templates/codex-handoff.md` (and the Chinese variant). Five
+  checks Codex runs before starting Stage 2 — file existence, plus a
+  hard requirement that `REQUIREMENTS_ANSWERS.md` contains at least
+  one non-`(default assumption)` line. Failing any check refuses the
+  Stage 2 start and hands the user back to interactive Claude Code.
+
+### Fixed
+
+- `bootstrap.py` report: the misleading `Claude: detected / not
+  present` line (which actually checked for a `.claude/` directory in
+  the project, not the `claude` CLI on PATH) is split into two clear
+  rows: `Claude CLI: <path or NOT on PATH>` and `.claude/ dir:
+  present/absent`. This removes a false signal that previously let
+  Codex justify self-filling Stage 1 with "Claude isn't available."
+
+### Why this version exists
+
+Two prior smoke-test runs showed that even after switching the SKILL
+to interactive-Claude instructions, Codex still bypassed Stage 1 and
+self-filled the questionnaire with all-default answers, then went on
+to ship Stage 2. The instructions told Claude how to behave; this
+release adds the missing piece — instructions that tell **Codex** to
+refuse Stage 1 work outright and a programmatic gate Codex hits before
+Stage 2.
+
 ## [0.2.0] - 2026-05-04
 
 ### Changed (BREAKING)
@@ -54,5 +90,6 @@ A Chinese mirror of this file is at [CHANGELOG.zh-CN.md](./CHANGELOG.zh-CN.md).
   codex-handoff, launch-task.
 - `SKILL.md` (English contract), README, Chinese reading mirrors.
 
+[0.3.0]: https://github.com/folkss/plan-then-code/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/folkss/plan-then-code/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/folkss/plan-then-code/releases/tag/v0.1.0

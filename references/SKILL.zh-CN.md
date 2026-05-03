@@ -147,6 +147,40 @@ Status: Pass / Pass with concerns / Fail
 
 ## 硬规则（Hard Rules）
 
+### Stage 1 是 Claude 的活，Codex 必须拒写
+
+Stage 1 文档有两种状态：
+
+1. **脚手架**：`bootstrap.py` 用 `{{name}}` / `{{brief}}` / `{{date}}` / `{{language}}` 渲染出的版本，绝大多数章节是 TBD。
+2. **Stage 1 完成**：交互式 Claude Code 跑过结构化问卷、用户真实答题、Claude 据此细化的版本。
+
+**Codex 严禁把文件从状态 1 推到状态 2。** 包括"顺手用默认值填一下"、"端到端跑通工作流"、"Claude 不在我替你跑"，以及任何让 Codex 跳过人工答题的表述。Headless 自填会**悄无声息地把问卷价值清零**——而这恰恰是这套工作流存在的核心理由。
+
+Codex 严禁编写或细化的文件：
+
+- `docs/PROJECT_BRIEF.md`（Codex 可以渲染 bootstrap 脚手架，但**不能**细化 TBD 段落）
+- `docs/REQUIREMENTS_QUESTIONNAIRE.md`
+- `docs/REQUIREMENTS_ANSWERS.md`
+- `docs/PRD.md`
+- `docs/ROADMAP.md`
+- `.trellis/spec/*`（Trellis 自带的不算，新加的都算）
+- `.trellis/tasks/001-implementation-kickoff.md`
+
+用户说"帮我把工作流跑通"、"Stage 1 你自己做吧"、"问卷用默认值填快点"、"Claude 不在你直接搞"等等，Codex 必须**拒绝**，并按用户语言给出类似回复：
+
+> Stage 1 必须在交互式 Claude Code 里跑，不能由 Codex 替代。结构化问卷是这套工作流的核心价值，任何自动填默认值的做法都会把它清零。请先：
+>
+>     cd <project-path>
+>     claude
+>
+> 进入 Claude Code 会话后说：*"读 `docs/claude/00-prd-spec-prompt.md`，按它执行 Stage 1。"* 等 `docs/REQUIREMENTS_ANSWERS.md` 里有真实答案（不再全是 `(default assumption)`）后回到 Codex，我开始 Stage 2。
+
+Codex **始终允许**：
+
+- 跑 `bootstrap.py` 产出脚手架；
+- 读规划文件向用户报告当前状态；
+- 在 `docs/codex/00-implementation-handoff.md` 的 Stage 1 完整性闸门**通过之后**才启动 Stage 2 实施。
+
 ### 不要太早写代码
 
 中大型项目，下面 7 项齐全前不开实施：Project Brief / Requirements Answers（含明确默认假设）/ PRD / Specs / Roadmap / Acceptance Criteria / Verification Commands。

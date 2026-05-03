@@ -293,9 +293,14 @@ def report(
         print("           Then re-run this script (it will skip the project folder).")
     else:
         print(f"  Trellis: {trellis_status}")
-    print(f"  Claude:  {'detected' if (project / '.claude').exists() else 'not present'}")
-    print(f"  Codex:   {'detected' if (project / '.codex').exists() else 'not present'}")
-    print(f"  Language: {language}")
+    claude_cli_path = shutil.which("claude")
+    if claude_cli_path:
+        print(f"  Claude CLI:  {claude_cli_path}")
+    else:
+        print("  Claude CLI:  NOT on PATH (Stage 1 cannot run without it)")
+    print(f"  .claude/ dir: {'present' if (project / '.claude').exists() else 'absent'}")
+    print(f"  .codex/ dir:  {'present' if (project / '.codex').exists() else 'absent'}")
+    print(f"  Language:    {language}")
     print()
     print("Files:")
     for path, was_new in written.items():

@@ -1,5 +1,44 @@
 # Codex 实施划交
 
+## Stage 1 完整性闸门（在做任何事之前先跑）
+
+Codex 进入这个项目的第一件事就是这一关。**任何一项检查不过，立刻拒绝
+启动实施**，按下面"拒绝并交回"的模板回复。**不要**"顺手"把缺失的部分填
+上 —— Stage 1 是 Claude 的活，不是 Codex 的（见 SKILL.md 硬规则
+"Stage 1 是 Claude 的活，Codex 必须拒写"）。
+
+检查项：
+
+1. `docs/REQUIREMENTS_ANSWERS.md` 存在。
+2. `docs/REQUIREMENTS_ANSWERS.md` 里**至少有一条**答案**不是** `(default assumption)`。
+   （全是默认值意味着没有真人答过题。）
+3. `docs/PRD.md` 存在，且超出 bootstrap 脚手架（有具体的 acceptance
+   criteria，不只是 TBD 行）。
+4. `docs/ROADMAP.md` 存在，且至少列出一个带验证命令的具体垂直切片。
+5. `.trellis/tasks/001-implementation-kickoff.md` 存在。
+
+### 拒绝并交回
+
+任意检查失败时，按用户语言回复：
+
+> Stage 1 还没完成。具体卡在以下检查上：
+>
+> - <列出 5 项中失败的项以及原因>
+>
+> Stage 1 是交互式 Claude Code 的活，不是我的。要继续：
+>
+>     cd <project-path>
+>     claude
+>
+> 进入 Claude Code 后说：*"读 `docs/claude/00-prd-spec-prompt.md`，按它
+> 执行 Stage 1。"* 等 Stage 1 真的完成后回到 Codex，我开始第一个垂直
+> 切片。
+
+**不要**自己写或细化任何 Stage 1 缺失的文档。这个闸门存在的意义就是
+拦住这种行为。
+
+## 先读这些（闸门通过之后）
+
 Claude 完成 Stage 1 规划后，Codex 在动代码前**按顺序**读这些文件：
 
 1. `PROJECT_BRIEF.md`、`AGENTS.md`
