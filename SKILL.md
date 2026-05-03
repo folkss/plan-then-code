@@ -95,23 +95,50 @@ templates from `assets/templates/` into the project. If `trellis` is not
 on `PATH`, the script prints the install command and exits cleanly — it
 does **not** silently install npm packages.
 
+### Output language
+
+Pass `--language en` or `--language zh-CN` to control the language of the
+rendered templates and the bootstrap `Next steps` hint. Default is
+`auto`, which checks `BIG_PROJECT_LANGUAGE`, then `LANG` / `LC_ALL` /
+`LANGUAGE` env vars, then the system locale, mapping any Chinese locale
+to `zh-CN` and everything else to `en`. To add a new language, drop a
+`<template>.<lang>.md` file next to the existing English template; the
+renderer prefers the localized variant when present and falls back to
+English otherwise.
+
 ## Stage 1: Claude Plans
 
-Run from the project root. Prefer Opus-class planning models.
+Run from the project root inside an **interactive** Claude Code session.
+Do not use `claude -p` (headless / print mode) — Stage 1 produces a
+structured questionnaire that needs a human to answer it. Headless mode
+silently fills every answer with `(default assumption)`, defeating the
+core value of this workflow.
 
 PowerShell:
 
 ```powershell
-Get-Content .\docs\claude\00-prd-spec-prompt.md -Raw |
-  claude -p --model opus --permission-mode acceptEdits
+cd <project-path>
+claude
 ```
 
 Bash / zsh:
 
 ```bash
-cat docs/claude/00-prd-spec-prompt.md |
-  claude -p --model opus --permission-mode acceptEdits
+cd <project-path>
+claude
 ```
+
+In the Claude Code session, say:
+
+> Read `docs/claude/00-prd-spec-prompt.md` and run Stage 1.
+
+Claude inspects the project, asks you to confirm scope and the
+questionnaire size, runs the questionnaire interactively, and only
+then writes the PRD / specs / roadmap / kickoff task / handoff doc.
+
+To pick a planning model, use `/model` inside the session. Prefer
+Opus-class with 1M context (e.g. `claude-opus-4-7[1m]`); the exact
+identifier changes over time, and the bundled prompt does not pin one.
 
 Claude writes or updates the Stage 1 document set:
 
@@ -133,9 +160,12 @@ Before writing the PRD, generate a structured questionnaire. This is the
 single largest reason this workflow outperforms ad-hoc prompting.
 
 - Question count by project size:
+  - **Tiny project** (single script, smoke test, throwaway tool):
+    10-20 questions
   - **Small project**: 30-60 questions
   - **Medium project**: 80-150 questions
   - **Large project**: 150-500 questions
+- Pick the band from the brief; if unsure, ask the user before generating.
 - Group by module.
 - Each question carries four fields: **question**, **type**
   (single-choice / multi-choice / open / boundary condition / acceptance

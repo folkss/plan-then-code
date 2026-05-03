@@ -103,19 +103,28 @@ python3 "$SKILL_ROOT/scripts/bootstrap.py" \
 
 ### 2. Stage 1 — Claude plans
 
+Open the project in **interactive Claude Code** (not `claude -p` headless
+mode — Stage 1 needs you to answer the structured questionnaire):
+
 ```powershell
-Get-Content .\docs\claude\00-prd-spec-prompt.md -Raw |
-  claude -p --model opus --permission-mode acceptEdits
+cd D:\codex-projects\my-project
+claude
 ```
 
 ```bash
-cat docs/claude/00-prd-spec-prompt.md |
-  claude -p --model opus --permission-mode acceptEdits
+cd ~/codex-projects/my-project
+claude
 ```
 
-Claude generates the questionnaire, helps you fill it (or marks
-defaults), then writes PRD / specs / roadmap / kickoff task / Codex
-handoff doc.
+In the Claude Code session, say:
+
+> Read `docs/claude/00-prd-spec-prompt.md` and run Stage 1.
+
+Claude inspects the project, confirms the questionnaire size (tiny /
+small / medium / large), runs the questionnaire interactively, captures
+your answers, then writes PRD / specs / roadmap / kickoff task / Codex
+handoff doc. To pick a planning model use `/model` inside the session;
+prefer Opus-class with 1M context (e.g. `claude-opus-4-7[1m]`).
 
 ### 3. Stage 2 — Codex implements
 
@@ -140,6 +149,7 @@ verification, and reports results.
 | `--trellis-bin` | auto-detect | Explicit path to the trellis binary |
 | `--allow-system-drive` | off | Required on Windows when targeting the system drive (e.g. `C:`) |
 | `--skip-trellis` | off | Skip the `trellis init` step |
+| `--language` | `auto` | Output language for templates and next-steps. `auto` checks `BIG_PROJECT_LANGUAGE` / `LANG` / `LC_ALL` / system locale; Chinese locales map to `zh-CN`, others to `en`. Pass `en` or `zh-CN` to force. |
 
 ## Troubleshooting
 
@@ -152,8 +162,10 @@ system-drive targets on Windows unless `--allow-system-drive` is passed.
 Set `BIG_PROJECT_ROOT` to your preferred drive once and forget it.
 
 **`claude` not found.** Install [Claude Code CLI](https://docs.anthropic.com/claude-code).
-Stage 1 also works interactively — open `docs/claude/00-prd-spec-prompt.md`
-and paste it into any Claude session.
+Stage 1 requires the **interactive** `claude` REPL (not `claude -p`) so
+the questionnaire phase has a human to talk to. If you cannot install
+Claude Code locally, paste `docs/claude/00-prd-spec-prompt.md` into any
+interactive Claude session and follow the same flow.
 
 **Want a different Trellis platform combination.** Use
 `--platforms codex,claude,cursor` etc. See

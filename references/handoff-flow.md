@@ -22,7 +22,19 @@ checklists live here so the skill stays compact.
 
 See SKILL.md "Stage 1 — Requirements Questionnaire" for the rules. Group
 by module, four fields per question (question / type / why / default),
-counts scaled by project size (30-60 / 80-150 / 150-500).
+counts scaled by project size:
+
+- Tiny (single script, smoke test, throwaway tool): 10-20 questions.
+  6-8 modules is usually enough — drop irrelevant tiers (admin, RBAC,
+  API design, DB design) when the project does not have one.
+- Small: 30-60 questions
+- Medium: 80-150 questions
+- Large: 150-500 questions
+
+Output language follows the project's bootstrap-time `--language`
+setting (default auto-detects from system locale). Code identifiers,
+HTTP method names, and other language-agnostic tokens stay English even
+in localized docs.
 
 ## docs/REQUIREMENTS_ANSWERS.md
 

@@ -69,14 +69,31 @@ python3 "$SKILL_ROOT/scripts/bootstrap.py" \
 
 脚本会创建项目目录、`git init`、`trellis init --codex -u <developer> -y`，然后把 `assets/templates/` 里的 4 份模板渲染到项目目录。如果 `trellis` 不在 PATH，脚本会打印安装命令然后干净退出，**不会** 偷偷给你装 npm 包。
 
+### 输出语言
+
+`--language` 控制渲染出来的文档和 next-steps 提示的语言。默认 `auto`：依次看 `BIG_PROJECT_LANGUAGE` / `LANG` / `LC_ALL` / `LANGUAGE` 环境变量和系统 locale，命中中文 locale 就用 `zh-CN`，否则 `en`。可以显式传 `--language en` 或 `--language zh-CN`。要加新语言就在 `assets/templates/` 里放一份 `<template>.<lang>.md`，渲染器会优先用本地化版本，缺失时回退英文。
+
 ## Stage 1：Claude 写文档
 
-在项目根运行：
+**在项目根运行交互式 Claude Code**（**不是** `claude -p` 管道模式）：
 
 ```powershell
-Get-Content .\docs\claude\00-prd-spec-prompt.md -Raw |
-  claude -p --model opus --permission-mode acceptEdits
+cd <project-path>
+claude
 ```
+
+```bash
+cd <project-path>
+claude
+```
+
+进入 Claude Code 会话后说：
+
+> 读 `docs/claude/00-prd-spec-prompt.md`，按它执行 Stage 1。
+
+为什么必须交互式：Stage 1 的核心是结构化需求问卷，需要人答题。`claude -p` headless 模式没有用户，会把所有题默默用 `(default assumption)` 填掉，整个工作流的核心价值就废了。
+
+要选规划模型，在会话里用 `/model`。优先用 Opus 级 + 1M context（例如 `claude-opus-4-7[1m]`）；具体型号会随时间变，所以 prompt 里没写死。
 
 Claude 写 / 更新：`docs/PROJECT_BRIEF.md`、`docs/REQUIREMENTS_QUESTIONNAIRE.md`、`docs/REQUIREMENTS_ANSWERS.md`、`docs/PRD.md`、`docs/ROADMAP.md`、`.trellis/spec/*`（按需）、`.trellis/tasks/001-implementation-kickoff.md`、`docs/codex/00-implementation-handoff.md`。
 
@@ -87,9 +104,11 @@ Claude 写 / 更新：`docs/PROJECT_BRIEF.md`、`docs/REQUIREMENTS_QUESTIONNAIRE
 写 PRD 之前必须先生成结构化问卷。这是这套工作流相对裸 Trellis 最大的价值。
 
 - 题量按规模分级：
-  - 小项目：30-60 题
-  - 中项目：80-150 题
-  - 大项目：150-500 题
+  - **Tiny**（单脚本、smoke test、一次性小工具）：10-20 题
+  - **小项目**：30-60 题
+  - **中项目**：80-150 题
+  - **大项目**：150-500 题
+- 从 brief 推断规模档位；不确定就先问用户再开题。
 - 按模块分组。
 - 每题四个字段：**问题** / **类型**（单选 / 多选 / 开放 / 边界条件 / 验收标准）/ **为什么重要** / **用户跳过时的默认答案**。
 - 必须覆盖：用户、角色权限、核心流程、页面、数据对象、业务规则、边界、admin、API、DB、AI/LLM、prompt fallback、日志分析、安全隐私、测试、部署、out-of-scope。
