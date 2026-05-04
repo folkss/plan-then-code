@@ -99,6 +99,24 @@ Claude 写 / 更新：`docs/PROJECT_BRIEF.md`、`docs/REQUIREMENTS_QUESTIONNAIRE
 
 每份文档的字段细清单见 `references/handoff-flow.md`，按需加载。
 
+### Project Mode（Q0，开题前先问）
+
+生成任何题目前，Stage 1 必须先问用户：
+
+> 这是 **single-shot 一次做完型项目**（你想要的全部内容这一轮 ship 完，
+> 没有 v2），还是 **iterative 迭代型产品**（多版本、v1 故意做窄）？
+
+答案锁定为 `docs/REQUIREMENTS_ANSWERS.md` 的 Q0，决定后续每一份文档：
+
+- **single-shot** —— `ROADMAP.md` 覆盖**全部**功能。PRD 没有 Future
+  Roadmap 段。Out of Scope 是用户**永远**不打算做的项。tiny / small
+  项目默认走这条。
+- **iterative** —— `ROADMAP.md` 仅覆盖 v1。PRD § Future Roadmap 列出
+  推迟的功能。Out of Scope 是 never-do 项，与"以后做"项区分。
+  medium / large 项目默认走这条。
+
+用户不确定时，按规模显式给出默认值，让用户有机会否决。
+
 ### 需求问卷（Stage 1 的核心增量）
 
 写 PRD 之前必须先生成结构化问卷。这是这套工作流相对裸 Trellis 最大的价值。
@@ -112,6 +130,7 @@ Claude 写 / 更新：`docs/PROJECT_BRIEF.md`、`docs/REQUIREMENTS_QUESTIONNAIRE
 - 按模块分组。
 - 每题四个字段：**问题** / **类型**（单选 / 多选 / 开放 / 边界条件 / 验收标准）/ **为什么重要** / **用户跳过时的默认答案**。
 - 必须覆盖：用户、角色权限、核心流程、页面、数据对象、业务规则、边界、admin、API、DB、AI/LLM、prompt fallback、日志分析、安全隐私、测试、部署、out-of-scope。
+- **single-shot 模式下不要**把题切成"MVP 现在"和"v2 以后" —— 用户想要的全部都在 scope。
 
 用户答完（或选择跳过）→ 写 `docs/REQUIREMENTS_ANSWERS.md`，**默认假设**部分用 `(default assumption)` 标注，让 Codex 知道哪些是弱点。
 

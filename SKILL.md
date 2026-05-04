@@ -154,6 +154,27 @@ Claude writes or updates the Stage 1 document set:
 Detailed per-document field lists are in `references/handoff-flow.md` —
 load on demand, do not memorize.
 
+### Stage 1 — Project Mode (Q0, asked first)
+
+Before generating questions, Stage 1 must ask the user:
+
+> Is this a **single-shot project** (everything you want shipped in
+> one run, no v2) or an **iterative product** (multiple versions, v1
+> intentionally narrow)?
+
+The answer is locked as Q0 in `docs/REQUIREMENTS_ANSWERS.md` and
+shapes every later document:
+
+- **single-shot** — `ROADMAP.md` covers *every* feature. PRD has no
+  Future Roadmap section. Out of Scope = items the user has ruled
+  out forever. Default for tiny / small projects.
+- **iterative** — `ROADMAP.md` covers v1 only. PRD § Future Roadmap
+  lists deferred features. Out of Scope = never-do items, distinct
+  from "later" items. Default for medium / large projects.
+
+When the user is unsure, state the default for their project size
+explicitly and let them override.
+
 ### Stage 1 — Requirements Questionnaire (THE core value-add)
 
 Before writing the PRD, generate a structured questionnaire. This is the
@@ -175,6 +196,8 @@ single largest reason this workflow outperforms ad-hoc prompting.
   admin/backoffice, API design, database design, AI/LLM integration,
   prompt & fallback rules, logging & analytics, security & privacy,
   testing, deployment, out-of-scope boundaries.
+- In **single-shot** mode, do NOT split questions into "MVP now" vs "v2
+  later" — every feature the user wants is in scope.
 
 After the user answers (or chooses to skip), write
 `docs/REQUIREMENTS_ANSWERS.md`. Mark each defaulted item with

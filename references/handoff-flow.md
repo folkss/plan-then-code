@@ -42,27 +42,33 @@ Mirror the questionnaire structure. Mark each answer as either
 `(user-confirmed)` or `(default assumption)`. Do not silently fill in
 defaults — the marker is what lets Codex know which decisions are weak.
 
-## docs/PRD.md (19 sections)
+## docs/PRD.md (20 sections)
 
 1. project background
 2. product goals
 3. target users
-4. MVP scope
-5. in scope
-6. out of scope (strict)
-7. user stories
-8. main flows
-9. page / interface list
-10. functional modules
-11. business rules
-12. data objects
-13. rough API list
-14. AI / LLM workflow (when relevant)
-15. analytics / dashboard metrics (when relevant)
-16. non-functional requirements
-17. acceptance criteria
-18. risks and fallback strategy
-19. future roadmap
+4. **project mode** (single-shot or iterative — locked from
+   `REQUIREMENTS_ANSWERS.md` Q0; controls sections 5 / 6 / 20)
+5. **scope** (single-shot: all features the user wants; iterative: v1
+   features only)
+6. in scope (concrete, exhaustive list within "scope")
+7. out of scope (strict; items NEVER to be done. In iterative mode,
+   "deferred for later" goes to section 20, not here)
+8. user stories
+9. main flows
+10. page / interface list
+11. functional modules
+12. business rules
+13. data objects
+14. rough API list
+15. AI / LLM workflow (when relevant)
+16. analytics / dashboard metrics (when relevant)
+17. non-functional requirements
+18. acceptance criteria
+19. risks and fallback strategy
+20. future roadmap (**iterative mode only** — list deferred features.
+    In single-shot mode, omit this section or write "N/A — single-shot
+    project")
 
 Each functional module includes:
 
@@ -103,7 +109,18 @@ Each spec includes:
 - verification commands
 - acceptance criteria
 
-## docs/ROADMAP.md (8-20 tasks, 12 fields each)
+## docs/ROADMAP.md (vertical-slice tasks, 12 fields each)
+
+Task count depends on Project Mode (locked in `REQUIREMENTS_ANSWERS.md`
+Q0):
+
+- **single-shot**: tasks must cover *every* feature the user asked for.
+  Task count is whatever the project needs — typical 8-20, tiny
+  projects can be 3-8.
+- **iterative**: tasks cover v1 only. Future-roadmap items have no
+  task entries here. Typical 8-20.
+
+Each task carries:
 
 - task ID
 - title

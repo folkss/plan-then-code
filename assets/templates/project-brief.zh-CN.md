@@ -12,13 +12,18 @@ TBD，由 Claude 在 Stage 1 细化。
 
 TBD，由 Claude 在 Stage 1 细化。
 
-## MVP 范围
+## 范围
 
 TBD，由 Claude 在 Stage 1 基于需求答卷细化。
 
+**single-shot 模式**下，这就是用户想做的全部内容 —— 没有 v2。
+**iterative 模式**下，这是 v1 的范围；暂时不做但以后想加的功能挪到
+`docs/PRD.md` 的 Future Roadmap 段。
+
 ## Out of Scope
 
-TBD，必须严格；未来 roadmap 项不能漏进 MVP。
+TBD，必须严格 —— 用户**任何版本都不打算做**的项。
+（iterative 模式下"以后再做"的项应该放进 Future Roadmap，**不**放这里。）
 
 ## 技术偏好
 

@@ -12,13 +12,19 @@ TBD. Claude refines this in Stage 1.
 
 TBD. Claude refines this in Stage 1.
 
-## MVP Scope
+## Scope
 
-TBD. Claude refines this in Stage 1, anchored to the requirements answers.
+TBD. Stage 1 fills this anchored to the requirements answers.
+
+In **single-shot mode**, this is everything the user wants in this
+project — there is no v2. In **iterative mode**, this is the v1 scope
+only; deferred items go to `docs/PRD.md` § Future Roadmap.
 
 ## Out of Scope
 
-TBD. Make this strict; future-roadmap items must not leak into MVP.
+TBD. Make this strict — items the user has explicitly ruled out, in
+any version. (Iterative-mode "we'll do it later" items belong in
+Future Roadmap, not here.)
 
 ## Technology Preferences
 

@@ -7,6 +7,47 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 A Chinese mirror of this file is at [CHANGELOG.zh-CN.md](./CHANGELOG.zh-CN.md).
 
+## [0.4.0] - 2026-05-05
+
+### Added
+
+- **Project Mode (Q0).** Stage 1 now asks one question before
+  generating the questionnaire: is this a **single-shot** project
+  (everything shipped in one run, no v2) or an **iterative** product
+  (multiple versions, v1 narrow)? The answer is locked as Q0 in
+  `REQUIREMENTS_ANSWERS.md` and shapes every later document. Defaults
+  by project size: tiny / small → single-shot; medium / large →
+  iterative. Recorded in `SKILL.md`, the Chinese mirror, both
+  `claude-planning-prompt` templates, and `references/handoff-flow.md`.
+
+### Changed
+
+- **`PRD.md` § Future Roadmap is iterative-mode-only.** In single-shot
+  mode it is omitted (or written as `N/A — single-shot project`). This
+  removes the bias that previously pushed every project to defer
+  features into a "Future Roadmap" bucket even when the user wanted
+  the entire scope shipped now.
+- **`ROADMAP.md` task count is mode-driven, not size-driven.**
+  Single-shot projects get tasks for *every* feature the user asked
+  for (typical 8-20, tiny projects can be 3-8). Iterative projects
+  still cover v1 only.
+- **`PROJECT_BRIEF.md` § "MVP Scope" → § "Scope"** in both English and
+  Chinese templates, with an explicit note that the section means
+  different things in the two modes.
+- **`PRD.md` § "MVP scope" → § "scope"** in `handoff-flow.md`'s field
+  list (now 20 sections, with "project mode" as section 4).
+- **Out of Scope is strict-only.** Iterative-mode "we'll do it later"
+  items belong in Future Roadmap, not Out of Scope. Single-shot mode
+  often has a small or empty Out of Scope.
+
+### Why this version exists
+
+The previous design forced every project through an MVP / Future
+Roadmap split. For real products with users that is right; for smoke
+tests, personal tools, hobby projects, and any "I want this whole
+thing built now" scope, it manufactured an artificial cut-off.
+Stage 1 now asks once and routes the rest of planning accordingly.
+
 ## [0.3.0] - 2026-05-04
 
 ### Added
@@ -90,6 +131,7 @@ Stage 2.
   codex-handoff, launch-task.
 - `SKILL.md` (English contract), README, Chinese reading mirrors.
 
+[0.4.0]: https://github.com/folkss/plan-then-code/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/folkss/plan-then-code/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/folkss/plan-then-code/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/folkss/plan-then-code/releases/tag/v0.1.0

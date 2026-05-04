@@ -34,27 +34,61 @@ guidelines and current task context.
 Write or update these files. The skill ships a detailed field checklist at
 `references/handoff-flow.md` — load it on demand, do not memorize.
 
-1. `docs/PROJECT_BRIEF.md` — refine purpose, users, MVP, strict out-of-scope.
+1. `docs/PROJECT_BRIEF.md` — refine purpose, users, scope, strict out-of-scope.
 2. `docs/REQUIREMENTS_QUESTIONNAIRE.md` — see Questionnaire Rules below.
 3. `docs/REQUIREMENTS_ANSWERS.md` — capture user answers; mark explicit
-   defaults for skipped questions.
-4. `docs/PRD.md` — background, goals, users, MVP, in/out scope, user stories,
+   defaults for skipped questions. **First answer (Q0) is always Project
+   Mode** — see "Project Mode" section below.
+4. `docs/PRD.md` — background, goals, users, scope, in/out scope, user stories,
    flows, pages, modules, data, APIs, AI/LLM workflow, non-functional reqs,
-   acceptance criteria, risks, future roadmap.
+   acceptance criteria, risks, **future roadmap (iterative mode only)**.
 5. `.trellis/spec/*` — only the specs the project actually needs (architecture,
    frontend, backend, database, api, llm, prompt, testing, deployment,
    security). Do not generate empty boilerplate for irrelevant tiers.
-6. `docs/ROADMAP.md` — 8-20 vertical-slice tasks; each task has goal, scope,
-   out-of-scope, files, steps, acceptance criteria, verification commands,
-   risks, rollback.
+6. `docs/ROADMAP.md` — vertical-slice tasks covering everything the project
+   will ship in this run (single-shot: full project; iterative: v1 only).
+   Task count: 8-20 typical; tiny single-shot projects may have fewer.
+   Each task has goal, scope, out-of-scope, files, steps, acceptance
+   criteria, verification commands, risks, rollback.
 7. `.trellis/tasks/001-implementation-kickoff.md` — concrete first task for
    Codex with scope, constraints, acceptance, verification, rollback.
 8. `docs/codex/00-implementation-handoff.md` — already provided as a template;
    adjust the read-first list and the first verification command if needed.
 
+## Project Mode (ask BEFORE the questionnaire)
+
+Before generating any questions, ask the user **one** question and lock
+the answer as Q0 in `docs/REQUIREMENTS_ANSWERS.md`:
+
+> **Is this a single-shot project or an iterative product?**
+>
+> - **single-shot** — you want everything you can imagine for this
+>   project shipped in one run. There is no "v2 features" bucket.
+>   Examples: smoke tests, personal tools, hobby projects, internal
+>   scripts, one-off utilities.
+> - **iterative** — this is a real product that will see multiple
+>   versions. v1 is intentionally narrow; clearly out-of-v1 features go
+>   to a future roadmap. Examples: SaaS apps, customer-facing products,
+>   anything with users you do not control.
+
+If the user is unsure, default by project size: **tiny / small →
+single-shot**, **medium / large → iterative**, then state that default
+explicitly so the user can override.
+
+The mode determines later document shape:
+
+| Section | single-shot | iterative |
+|---------|-------------|-----------|
+| `PROJECT_BRIEF.md` § Scope | everything the user wants | v1 scope only |
+| `PRD.md` § Scope | full feature list | v1 feature list |
+| `PRD.md` § Future Roadmap | **omit this section** (or write "N/A — single-shot project") | populated with deferred items |
+| `ROADMAP.md` tasks | cover all features | cover only v1 features |
+| Out of Scope | only items the user has ruled out forever | items not in v1 (deferred ones go to Future Roadmap, not here) |
+
 ## Questionnaire Rules (THE Stage 1 core)
 
-Generate a structured questionnaire **before** writing the PRD.
+Generate a structured questionnaire **before** writing the PRD, **after**
+locking Project Mode (Q0).
 
 - Question count by project size:
   - Tiny project (single script, smoke test, throwaway tool): 10-20 questions
@@ -72,6 +106,8 @@ Generate a structured questionnaire **before** writing the PRD.
   admin/backoffice, API design, database design, AI/LLM integration, prompt
   & fallback rules, logging & analytics, security & privacy, testing,
   deployment, out-of-scope boundaries.
+- In **single-shot mode**, do NOT split questions into "MVP now" vs "v2
+  later" — every feature the user wants is in scope.
 
 After the user answers (or chooses to skip), write
 `docs/REQUIREMENTS_ANSWERS.md`. Mark each defaulted answer with
@@ -82,8 +118,9 @@ After the user answers (or chooses to skip), write
 - **Don't block on assumptions.** If an answer is missing, draft an explicit
   assumption and continue. Only stop when the missing answer affects safety,
   cost, legal risk, or irreversible architecture.
-- **Out of Scope must be strict.** Do not let future-roadmap features leak into
-  MVP. Document them as `Future Roadmap` instead.
+- **Out of Scope must be strict.** In iterative mode, deferred features go
+  to `Future Roadmap`, not Out of Scope. In single-shot mode, Out of Scope
+  is small or empty — the user wants everything.
 - **Specs must be concrete.** Avoid lines like "code should be clean." Prefer
   contracts: response envelopes, state transitions, validation rules, error
   codes, timeout behavior, retry limits, exact test expectations. See
