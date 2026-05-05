@@ -34,6 +34,7 @@
 | [Trellis CLI](https://github.com/mindfold-ai/trellis) | `.trellis/` 工作区 |
 | Python 3.9+ | Bootstrap 脚本 |
 | Git | 版本控制 |
+| [codex-autoresearch](https://github.com/leo-lilinxiao/codex-autoresearch)（可选） | Stage 2 高风险切片的 Research Gate |
 
 安装 Trellis（想锁版本就用 `--trellis-version` 传给 bootstrap）：
 
@@ -42,6 +43,17 @@ npm install -g @mindfoldhq/trellis@latest
 ```
 
 如果不想让 npm 全局包装到系统盘，先 `npm config set prefix` 指到其他盘再装。
+
+可选：当项目可能涉及陌生 API、安全敏感代码、复杂迁移、LLM provider 差异或
+有明确优化指标时，建议安装 `codex-autoresearch`：
+
+```text
+$skill-installer install https://github.com/leo-lilinxiao/codex-autoresearch
+```
+
+装完后重启 Codex。本 skill 的 Stage 2 划交模板里的 Research Gate 会引用它。
+Tiny / 简单切片仍然应该跳过 research —— 见 `SKILL.md` 的
+"Optional Research Gate" 一节。
 
 Codex 的 skill 加载机制按
 [官方文档](https://developers.openai.com/codex/skills) 配置即可。

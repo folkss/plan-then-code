@@ -59,6 +59,29 @@ Start with `.trellis/tasks/001-implementation-kickoff.md` and the first
 vertical slice from `docs/ROADMAP.md`. Inspect the repo, confirm the generated
 docs are coherent, then implement the smallest runnable scaffold.
 
+## Optional Research Gate (before the Task Plan)
+
+Before editing code for each roadmap slice, decide whether this task
+needs `codex-autoresearch`.
+
+Use `$codex-autoresearch` when the slice involves unfamiliar third-party
+APIs, auth/encryption/secrets, database migrations, deployment,
+performance, security-sensitive behavior, LLM provider/tool-use design,
+large dependency upgrades, unclear failing tests, or optimization with a
+measurable metric. Skip it for straightforward slices where the PRD and
+specs are already concrete.
+
+If research is needed:
+
+1. State the narrow research goal and the metric / verification command.
+2. Invoke `$codex-autoresearch` (foreground for short runs, background
+   for long experiment loops).
+3. Read the research result / `autoresearch-results/` summary.
+4. Add `Research notes:` to the Task Plan before editing production code.
+
+If research is not needed, write `Research notes: Not needed — <one-line
+reason>` in the Task Plan. Do not use research as a way to broaden scope.
+
 ## Before Editing Any Code: Output A Task Plan
 
 ```markdown
@@ -69,6 +92,7 @@ docs are coherent, then implement the smallest runnable scaffold.
 - Out of Scope:
 - Files to inspect:
 - Files likely to change:
+- Research notes:
 - Risks:
 - Verification commands:
 - Acceptance criteria:

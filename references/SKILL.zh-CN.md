@@ -136,6 +136,26 @@ Claude 写 / 更新：`docs/PROJECT_BRIEF.md`、`docs/REQUIREMENTS_QUESTIONNAIRE
 
 Stage 1 不写产品代码，除非用户明确要求。
 
+## 可选 Research Gate：codex-autoresearch
+
+`codex-autoresearch` 是一个可选的 Codex companion skill，安装源是
+`leo-lilinxiao/codex-autoresearch`。它**不是**本工作流的硬依赖，也不该拖慢
+tiny / 明确的小任务。
+
+在 Stage 2 实施前，或某个高风险 roadmap 切片开始前，如果任务涉及下面内容，
+建议先用它做 research：
+
+- 陌生第三方 API / SDK；
+- 认证、加密、密钥处理、数据库迁移、部署、性能、安全敏感改动；
+- LLM provider 行为、eval 策略、prompt safety、tool-use 设计；
+- 大依赖升级或跨层重构；
+- 根因不清的测试失败；
+- 有明确可度量指标的优化工作（延迟、覆盖率、类型错误数、lint 数、bundle size 等）。
+
+如果切片很直接，而且 PRD/spec 已经给出足够具体的实施细节，就跳过。
+
+需要 research 时，让 Codex 调用 `$codex-autoresearch`，给它一个窄目标和一个机械可验证指标。正式改生产代码前，把结论写进 Task Plan 的 `Research notes`。Research loop 可以前台跑，也可以后台跑，但必须遵守当前 repo 边界和当前任务 scope。
+
 ## Stage 2：Codex 实现
 
 Claude 完成后让 Codex 读 `docs/codex/00-implementation-handoff.md` 并实现第一个垂直切片：

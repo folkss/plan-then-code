@@ -206,6 +206,34 @@ After the user answers (or chooses to skip), write
 Claude does not implement product code in Stage 1 unless the user
 explicitly asks.
 
+## Optional Research Gate: codex-autoresearch
+
+`codex-autoresearch` is an optional companion Codex skill, installed from
+`leo-lilinxiao/codex-autoresearch`. It is **not** a hard dependency for
+this workflow and should not slow down tiny / obvious tasks.
+
+Use it before Stage 2 implementation, or before a high-risk roadmap
+slice, when the task involves:
+
+- unfamiliar third-party APIs or SDKs,
+- auth, encryption, secrets handling, database migrations, deployment,
+  performance, security-sensitive changes,
+- LLM provider behavior, eval strategy, prompt safety, or tool-use
+  design,
+- large dependency upgrades or cross-cutting refactors,
+- failing tests whose root cause is unclear,
+- optimization work with a measurable metric (latency, coverage,
+  type errors, lint count, bundle size, etc.).
+
+Skip it when the slice is straightforward and the PRD/specs already
+contain enough concrete implementation detail.
+
+When research is needed, ask Codex to invoke `$codex-autoresearch` with
+a narrow goal and a mechanical verification metric. Capture the outcome
+in the Task Plan under "Research notes" before editing production code.
+The research loop may run foreground or background, but it must respect
+the current repo boundary and the task scope.
+
 ## Stage 2: Codex Implements
 
 After Claude finishes, ask Codex:

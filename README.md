@@ -37,6 +37,7 @@ README is for the developer who installs the skill.
 | [Trellis CLI](https://github.com/mindfold-ai/trellis) | `.trellis/` workspace |
 | Python 3.9+ | Bootstrap script |
 | Git | Version control |
+| [codex-autoresearch](https://github.com/leo-lilinxiao/codex-autoresearch) (optional) | Stage 2 research gate for high-risk slices |
 
 Install Trellis (pin a version with `--trellis-version` if you want):
 
@@ -47,6 +48,19 @@ npm install -g @mindfoldhq/trellis@latest
 If you do not want npm globals on the system drive, configure
 `npm config set prefix` to a directory on another drive before
 installing.
+
+Optional: install `codex-autoresearch` if your project is likely to hit
+unfamiliar APIs, security-sensitive code, complex migrations, LLM
+provider differences, or measurable optimization goals:
+
+```text
+$skill-installer install https://github.com/leo-lilinxiao/codex-autoresearch
+```
+
+After installing, restart Codex. This skill's Stage 2 handoff template
+will detect that `codex-autoresearch` is available and reference it in
+the Research Gate. Tiny / straightforward slices should still skip
+research — see `SKILL.md` § Optional Research Gate.
 
 Enable Codex skill loading per the
 [official docs](https://developers.openai.com/codex/skills).

@@ -7,6 +7,36 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 A Chinese mirror of this file is at [CHANGELOG.zh-CN.md](./CHANGELOG.zh-CN.md).
 
+## [0.5.0] - 2026-05-05
+
+### Added
+
+- **Optional Research Gate via `codex-autoresearch`.** A new section in
+  `SKILL.md` (and the Chinese mirror) explains when to invoke
+  `$codex-autoresearch` before a Stage 2 slice — unfamiliar APIs,
+  auth/encryption/secrets, migrations, deployment, performance,
+  security-sensitive logic, LLM provider/tool-use design, large
+  dependency upgrades, unclear test failures, or optimization with a
+  measurable metric. Tiny / straightforward slices skip it.
+- **`Research notes:` field in the Codex Task Plan.** The Task Plan
+  template in `assets/templates/codex-handoff.md` (and the Chinese
+  variant) now requires `Research notes:` either pointing at a
+  `codex-autoresearch` run or stating in one line why research was not
+  needed.
+- **Optional dependency listed in the README.** Both `README.md` and
+  `README.zh-CN.md` document the optional `codex-autoresearch` install
+  via `$skill-installer install https://github.com/leo-lilinxiao/codex-autoresearch`,
+  with guidance on when it pays off and when to skip it.
+
+### Why this version exists
+
+Stage 2 slices that touch unfamiliar territory (auth, third-party APIs,
+performance, LLM provider behavior) benefit from a focused research
+loop with a mechanical metric before any production code is edited.
+`codex-autoresearch` already exists for that. v0.5.0 wires it in as an
+explicit gate so Codex remembers to use it on hard slices and skips it
+on easy ones, instead of either overusing or ignoring it.
+
 ## [0.4.0] - 2026-05-05
 
 ### Added
@@ -131,6 +161,7 @@ Stage 2.
   codex-handoff, launch-task.
 - `SKILL.md` (English contract), README, Chinese reading mirrors.
 
+[0.5.0]: https://github.com/folkss/plan-then-code/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/folkss/plan-then-code/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/folkss/plan-then-code/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/folkss/plan-then-code/compare/v0.1.0...v0.2.0

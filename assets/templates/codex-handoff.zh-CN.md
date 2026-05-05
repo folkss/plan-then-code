@@ -55,6 +55,25 @@ Claude 完成 Stage 1 规划后，Codex 在动代码前**按顺序**读这些文
 第一个垂直切片开始。先 inspect 仓库、确认生成的文档自洽，再实现最小可运行
 脚手架。
 
+## 可选 Research Gate（Task Plan 之前）
+
+每个 roadmap 切片动代码之前，先判断这个任务是否需要 `codex-autoresearch`。
+
+以下情况建议用 `$codex-autoresearch`：陌生第三方 API、认证 / 加密 / 密钥、
+数据库迁移、部署、性能、安全敏感逻辑、LLM provider / tool-use 设计、大依赖升级、
+根因不明的测试失败、或者有明确指标的优化工作。PRD/spec 已经非常具体、实现路径
+直接的切片可以跳过。
+
+如果需要 research：
+
+1. 先说明狭窄 research 目标和 metric / 验证命令。
+2. 调用 `$codex-autoresearch`（短任务前台，长实验循环后台）。
+3. 读取 research 结果 / `autoresearch-results/` 摘要。
+4. 正式改生产代码前，把 `Research notes:` 加进 Task Plan。
+
+如果不需要，Task Plan 里写 `Research notes: 不需要 — <一句理由>`。
+不要把 research 当成扩大 scope 的理由。
+
 ## 动任何代码之前：先输出 Task Plan
 
 ```markdown
@@ -65,6 +84,7 @@ Claude 完成 Stage 1 规划后，Codex 在动代码前**按顺序**读这些文
 - Out of Scope:
 - Files to inspect:
 - Files likely to change:
+- Research notes:
 - Risks:
 - Verification commands:
 - Acceptance criteria:
